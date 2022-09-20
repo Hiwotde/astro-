@@ -1,0 +1,49 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import BaseLayout from '../layout/BaseLayout.astro';
+
+// const posts = (await Astro.glob('./blog/*.md')).sort(
+// 	(a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+// );
+const topPostsQuery = await fetch("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
+const topPosts = await topPostsQuery.json()
+
+---
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead/>
+		<style>
+			ul {
+				list-style-type: none;
+				padding: unset;
+			}
+			ul li {
+				display: flex;
+			}
+			ul li time {
+				flex: 0 0 130px;
+				font-style: italic;
+				color: #888;
+			}
+			ul li a:visited {
+				color: #8e32dc;
+			}
+		</style>
+	</head>
+	<body>
+		<BaseLayout>
+		<main>
+			<section>
+				<ul>
+					{topPosts.map((post) => (
+						<li>
+							<a href={`/blog/${post}`}>{post}</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		</main>
+	</BaseLayout>
+	</body>
+</html>

@@ -1,0 +1,10 @@
+---
+const {slug} = Astro.params
+const singleResponse = await fetch(`https://hacker-news.firebaseio.com/v0/item/${slug}.json?print=pretty`)
+const single = await singleResponse.json()
+
+
+---
+
+<a href="/blog">go to back</a>
+<h1>Detail Page : {single.title}</h1>
